@@ -32,8 +32,8 @@ public class GetQueue {
 
                 (a, b) -> {
 
-                    Hospital ha = DataStore.hospitals.get(a.getHospitalId());
-                    Hospital hb = DataStore.hospitals.get(b.getHospitalId());
+                    Hospital ha = DataStore.hospitals.get(a.getHospital().getHospitalId());
+                    Hospital hb = DataStore.hospitals.get(b.getHospital().getHospitalId());
 
                     int distA = distMap.getOrDefault(ha, Integer.MAX_VALUE);
                     int distB = distMap.getOrDefault(hb, Integer.MAX_VALUE);

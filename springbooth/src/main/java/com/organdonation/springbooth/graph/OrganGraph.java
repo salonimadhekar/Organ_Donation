@@ -21,7 +21,10 @@ public class OrganGraph{
             if(current.getSourceDist()>dist.get(current.getHospital())){
                 continue;
             }
-            for(Edge edge:graph.get(current.getHospital())){
+            List<Edge> edges = graph.get(current.getHospital());
+            if(edges==null)continue;
+            for(Edge edge: edges)
+            {
                 int weight = edge.getDistance();
                 int newDistance = current.getSourceDist()+weight;
 

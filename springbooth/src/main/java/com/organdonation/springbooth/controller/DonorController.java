@@ -1,40 +1,44 @@
 package com.organdonation.springbooth.controller;
 
 import com.organdonation.springbooth.model.*;
+import com.organdonation.springbooth.repository.DonorRepository;
+import com.organdonation.springbooth.repository.HospitalRepository;
 import com.organdonation.springbooth.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping("/donor")
 public class DonorController {
 
     @Autowired
     private AllocationService allocationService;
+    @Autowired
+    private HospitalRepository hospitalRepo;
+    @Autowired
+    private DonorRepository donorRepo;
 
     // ➕ Add donor
     @PostMapping("/add")
     public String addDonor(@RequestBody Donor d) {
 
-        Hospital h = DataStore.hospitals.get(d.getHospitalId());
+        Hospital h = hospitalRepo.findById(d.getHospital().getHospitalId()).orElse(null);
 
         if (h == null) return "Hospital not found";
 
-        h.addDonor(d);
+        d.setHospital(h);
+        donorRepo.save(d);
 
         return "Donor added successfully";
     }
 
     // 🔥 Activate donor & allocate organs
-    @PostMapping("/activate/{hospitalId}/{index}")
-    public Object activateDonor(@PathVariable String hospitalId,
-                                @PathVariable int index) {
+    @PostMapping("/activate/{donorId}")
+    public Object activateDonor(@PathVariable String donorId) {
 
-        Hospital h = DataStore.hospitals.get(hospitalId);
+        Donor d = donorRepo.findById(donorId).orElse(null);
 
-        if (h == null) return "Hospital not found";
-
-        Donor d = h.getDonors().get(index);
+        if (d == null) return "Donor not found";
 
         return allocationService.allocateOrgans(d);
     }

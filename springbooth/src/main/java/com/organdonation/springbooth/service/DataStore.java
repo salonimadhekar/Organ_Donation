@@ -1,6 +1,6 @@
 package com.organdonation.springbooth.service;
 
-
+//no use of this class after DB connection
 import com.organdonation.springbooth.model.*;
 
 import java.util.*;

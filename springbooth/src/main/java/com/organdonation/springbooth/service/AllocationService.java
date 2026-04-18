@@ -3,16 +3,25 @@ package com.organdonation.springbooth.service;
 import com.organdonation.springbooth.model.*;
 import com.organdonation.springbooth.graph.*;
 
+import com.organdonation.springbooth.repository.DonorRepository;
+import com.organdonation.springbooth.repository.PatientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class AllocationService {
+    @Autowired
+    private DonorRepository donorRepo;
+    @Autowired
+    private PatientRepository patientRepo;
 
-    public List<Patient> allocateOrgans(Donor donor) {
+    public List<Map<String,Object>> allocateOrgans(Donor donor) {
 
-        List<Patient> finalAllocatedList = new ArrayList<>();
+        List<Map<String,Object>> finalAllocatedList = new ArrayList<>();
+
+
 
         // Activate donor
         donor.setActive(true);
@@ -25,7 +34,7 @@ public class AllocationService {
         for (String organ : donor.getOrgansDonated()) {
 
             List<Patient> candidates =
-                    DataStore.organMap.get(organ.toLowerCase());
+                    patientRepo.findByOrgansNeededContainingIgnoreCase(organ.toLowerCase());
 
             if (candidates == null || candidates.isEmpty()) {
                 continue;
@@ -55,8 +64,8 @@ public class AllocationService {
             }
 
             // 🔥 GRAPH + DISTANCE LOGIC
-            String hospitalId = donor.getHospitalId();
-            Hospital sourceHos = DataStore.hospitals.get(hospitalId);
+
+            Hospital sourceHos = donor.getHospital();
 
             Map<Hospital, List<Edge>> graph = GraphBuilder.getGraph();
             Map<Hospital, Integer> distMap =
@@ -77,11 +86,16 @@ public class AllocationService {
             // 🏆 SELECT BEST PATIENT
             if (!pq.isEmpty()) {
                 Patient selected = pq.poll();
-
-                // mark as allocated
                 selected.setAvailable(false);
 
-                finalAllocatedList.add(selected);
+                // mark as allocated
+                patientRepo.save(selected);
+                Map<String,Object> result = new HashMap<>();
+                result.put("patientId",selected.getPatientId());
+                result.put("name",selected.getInfo().getName());
+                result.put("waiting time",selected.getWaitingTime());
+
+                finalAllocatedList.add(result);
             }
         }
 

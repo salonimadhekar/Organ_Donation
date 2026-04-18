@@ -1,9 +1,12 @@
 package com.organdonation.springbooth.model;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import java.util.List;
-
+@Entity
 public class Patient {
+    @Id
     private String patientId;
+    @Embedded
     private Info info;
 
     private String bloodGroup;
@@ -11,15 +14,18 @@ public class Patient {
     private int organSize;
 
     private int waitingTime;
-
+    @ElementCollection
     private List<String> organsNeeded;
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
+    @JsonBackReference
+    private Hospital hospital;
 
-    private String hospitalId;
     private boolean isAvailable = true;
-
+    public Patient(){}
     public Patient(String patientId, Info info, String bloodGroup, String tissue,
                    int organSize, int waitingTime,
-                   List<String> organsNeeded, String hospitalId) {
+                   List<String> organsNeeded, Hospital hospital) {
 
         this.patientId = patientId;
         this.info = info;
@@ -28,7 +34,7 @@ public class Patient {
         this.organSize = organSize;
         this.waitingTime = waitingTime;
         this.organsNeeded = organsNeeded;
-        this.hospitalId = hospitalId;
+        this.hospital = hospital;
     }
 
     public String getPatientId() {
@@ -59,8 +65,12 @@ public class Patient {
         return organsNeeded;
     }
 
-    public String getHospitalId() {
-        return hospitalId;
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 
     public boolean isAvailable() {

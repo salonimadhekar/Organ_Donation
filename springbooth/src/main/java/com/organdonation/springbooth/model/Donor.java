@@ -1,28 +1,34 @@
 package com.organdonation.springbooth.model;
-
+import jakarta.persistence.*;
 import java.util.List;
-
+@Entity
 public class Donor {
+    @Embedded
     private Info info;
     private String bloodGroup;
     private String tissue;
     private int organSize;
+    @ElementCollection
     private List<String> organsDonated;
-    private String hospitalId;
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
+
     private boolean isActive;
+    @Id
     private String donorId;
 
 
-
+    public Donor(){}
     public Donor(Info info, String bloodGroup, String tissue,
-                 int organSize, List<String> organsDonated, String hospitalId,String id) {
+                 int organSize, List<String> organsDonated, Hospital hospital,String id) {
 
         this.info = info;
         this.bloodGroup = bloodGroup;
         this.tissue = tissue;
         this.organSize = organSize;
         this.organsDonated = organsDonated;
-        this.hospitalId = hospitalId;
+        this.hospital = hospital;
         this.donorId = id;
 
 
@@ -50,8 +56,12 @@ public class Donor {
         return organsDonated;
     }
 
-    public String getHospitalId() {
-        return hospitalId;
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 
     public boolean isActive() {

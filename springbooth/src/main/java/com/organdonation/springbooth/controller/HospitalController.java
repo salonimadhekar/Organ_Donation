@@ -1,15 +1,20 @@
 package com.organdonation.springbooth.controller;
+import com.organdonation.springbooth.repository.HospitalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.organdonation.springbooth.model.Hospital;
 import com.organdonation.springbooth.service.DataStore;
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping("/hospital")
 public class HospitalController {
 
-
+    @Autowired
+    private HospitalRepository hospitalRepo;
     @PostMapping("/register")
     public String register(@RequestBody Hospital h) {
-        DataStore.hospitals.put(h.getHospitalId(), h);
+        //DataStore.hospitals.put(h.getHospitalId(), h);
+        hospitalRepo.save(h);
         return "Hospital registered";
     }
 }

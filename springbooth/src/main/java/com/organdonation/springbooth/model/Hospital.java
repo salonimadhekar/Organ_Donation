@@ -1,16 +1,20 @@
 package com.organdonation.springbooth.model;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Entity
 public class Hospital {
-
+    @Id
     private String hospitalId;
     private String hospitalName;
     private String city;
-
+    @OneToMany(mappedBy = "hospital")
+    @JsonBackReference
     private List<Patient> patients = new ArrayList<>();
+    @OneToMany
     private List<Donor> donors = new ArrayList<>();
+    public Hospital(){}
 
     public Hospital(String hospitalId, String hospitalName,String city) {
         this.hospitalId = hospitalId;
@@ -47,5 +51,16 @@ public class Hospital {
 
     public void addDonor(Donor d) {
         donors.add(d);
+    }
+    @Override
+    public boolean equals(Object o){
+        if(this==o)return true;
+        if(!(o instanceof Hospital)) return false;
+        Hospital h = (Hospital) o;
+        return hospitalId.equals(h.hospitalId);
+    }
+    @Override
+    public int hashCode(){
+        return hospitalId.hashCode();
     }
 }
