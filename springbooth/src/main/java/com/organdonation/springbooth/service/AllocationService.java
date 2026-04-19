@@ -25,6 +25,7 @@ public class AllocationService {
 
         // Activate donor
         donor.setActive(true);
+        donorRepo.save(donor);
 
         if (!donor.isActive()) {
             return finalAllocatedList;
@@ -32,6 +33,7 @@ public class AllocationService {
 
         // Loop through each organ donated
         for (String organ : donor.getOrgansDonated()) {
+            System.out.println("Donor organs: " + donor.getOrgansDonated());
 
             List<Patient> candidates =
                     patientRepo.findByOrgansNeededContainingIgnoreCase(organ.toLowerCase());
@@ -44,6 +46,7 @@ public class AllocationService {
 
             // 🔍 FILTERING LOGIC
             for (Patient p : candidates) {
+                System.out.println("Patient organs: " + p.getOrgansNeeded());
 
                 if (!p.isAvailable()) continue;
 
@@ -65,11 +68,12 @@ public class AllocationService {
 
             // 🔥 GRAPH + DISTANCE LOGIC
 
-            Hospital sourceHos = donor.getHospital();
+            String sourceCity = donor.getHospital().getCity();
+            GraphBuilder.initializeGraph();
 
-            Map<Hospital, List<Edge>> graph = GraphBuilder.getGraph();
-            Map<Hospital, Integer> distMap =
-                    OrganGraph.mainLogic(graph, sourceHos);
+            Map<String, List<Edge>> graph = GraphBuilder.getGraph();
+            Map<String, Integer> distMap =
+                    OrganGraph.mainLogic(graph, sourceCity);
 
             // ⏱ Organ viability time
             int organTime = Organs.getTime(organ);
