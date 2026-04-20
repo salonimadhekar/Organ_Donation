@@ -6,7 +6,8 @@ import com.organdonation.springbooth.repository.HospitalRepository;
 import com.organdonation.springbooth.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-@CrossOrigin(origins="http://localhost:3000")
+import java.util.List;
+@CrossOrigin(origins="http://localhost:3001")
 @RestController
 @RequestMapping("/donor")
 public class DonorController {
@@ -41,5 +42,9 @@ public class DonorController {
         if (d == null) return "Donor not found";
 
         return allocationService.allocateOrgans(d);
+    }
+    @GetMapping("/all")
+    public List<Donor> getAllDonors() {
+        return donorRepo.findAll();
     }
 }

@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.organdonation.springbooth.model.Hospital;
 import com.organdonation.springbooth.service.DataStore;
-@CrossOrigin(origins="http://localhost:3000")
+
+import java.util.List;
+
+@CrossOrigin(origins="http://localhost:3001")
 @RestController
 @RequestMapping("/hospital")
 public class HospitalController {
@@ -16,5 +19,10 @@ public class HospitalController {
         //DataStore.hospitals.put(h.getHospitalId(), h);
         hospitalRepo.save(h);
         return "Hospital registered";
+    }
+    // 👇 ADD THIS HERE
+    @GetMapping("/all")
+    public List<Hospital> getAllHospitals() {
+        return hospitalRepo.findAll();
     }
 }
