@@ -7,7 +7,7 @@ import com.organdonation.springbooth.service.DataStore;
 
 import java.util.List;
 
-@CrossOrigin(origins="http://localhost:3001")
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping("/hospital")
 public class HospitalController {
