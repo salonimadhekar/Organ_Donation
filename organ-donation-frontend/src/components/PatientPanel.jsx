@@ -112,6 +112,7 @@ setMsg(null);
 ))} </div>
 
 ```
+
   {tab === "add" && (
     <div className="card">
       <div className="card-title">Add Patient</div>
@@ -245,8 +246,9 @@ setMsg(null);
       {msg && <p>{msg.text}</p>}
     </div>
   )}
-</div>
-```
 
+```
+</div>
 );
 }
+

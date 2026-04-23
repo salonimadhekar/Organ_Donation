@@ -12,6 +12,7 @@ const req = async (url, opts = {}) => {
 export const api = {
   // ── HOSPITAL ──
   registerHospital: (data) => req("/hospital/register", { method: "POST", body: JSON.stringify(data) }),
+  loginHospital: (hospitalId, password) => req(`/hospital/login?hospitalId=${hospitalId}&password=${password}`, { method: "POST" }),
   getAllHospitals: () => req("/hospital/all"),
 
   // ── DONOR ──
@@ -22,9 +23,9 @@ export const api = {
   // ── PATIENT ──
   addPatient: (data) => req("/patient/add", { method: "POST", body: JSON.stringify(data) }),
   addAllPatients: (data) => req("/patient/addAll", { method: "POST", body: JSON.stringify(data) }),
-  getPatientsByOrgan: (organ) => req(`/patient/organ/${organ}`),
-  getWaitingList: (organ) => req(`/patient/waiting-list/${organ}`),
-  updateUrgency: (id, urgency) => req(`/patient/update-condition/${id}?urgency=${urgency}`, { method: "PUT" }),
+  getPatientsByOrgan: (organ,hospitalId) => req(`/patient/organ/${organ}/${hospitalId}`),
+  getWaitingList: (organ, hospitalId) => req(`/patient/waiting-list/${organ}/${hospitalId}`),
+  updateUrgency: (id, urgency,hospitalId) => req(`/patient/update-condition/${id}?urgency=${urgency}&hospitalId=${hospitalId}`, { method: "PUT" }),
 
   // ── ALLOCATION ──
   acceptAllocation: (patientId, donorId) =>

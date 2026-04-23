@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Organ_Donation.iml" filepath="$PROJECT_DIR$/.idea/Organ_Donation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/springbooth/springbooth.iml" filepath="$PROJECT_DIR$/springbooth/springbooth.iml" />
     </modules>
   </component>
 </project>

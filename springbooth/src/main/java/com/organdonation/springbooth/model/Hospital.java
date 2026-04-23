@@ -9,6 +9,11 @@ public class Hospital {
     private String hospitalId;
     private String hospitalName;
     private String city;
+    private String password; // 👈 add this
+
+    // add getter and setter
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
     @OneToMany(mappedBy = "hospital")
     @JsonBackReference
     private List<Patient> patients = new ArrayList<>();

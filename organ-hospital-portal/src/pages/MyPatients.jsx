@@ -63,7 +63,7 @@ export default function MyPatients({ hospital }) {
     if (!searchOrgan) return;
     setSearching(true); setSearchResults(null);
     try {
-      const res = await api.getPatientsByOrgan(searchOrgan);
+      const res = await api.getPatientsByOrgan(searchOrgan,hospital.hospitalId);
       setSearchResults(Array.isArray(res) ? res : []);
     } catch { setSearchResults([]); }
     finally { setSearching(false); }
@@ -78,7 +78,8 @@ export default function MyPatients({ hospital }) {
   const submitUrgency = async () => {
     setUpdatingUrgency(true); setUrgencyMsg(null);
     try {
-      const res = await api.updateUrgency(urgencyModal.patientId, newUrgency);
+      const hospitalId = hospital?.hospitalId;
+      const res = await api.updateUrgency(urgencyModal.patientId, newUrgency,hospitalId);
       setUrgencyMsg({ type:"success", text: typeof res === "string" ? res : "Urgency updated!" });
       setTimeout(() => { setUrgencyModal(null); searchPatients(); }, 1200);
     } catch {

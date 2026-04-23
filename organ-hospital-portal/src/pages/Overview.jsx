@@ -13,7 +13,8 @@ export default function Overview({ hospital, onNavigate }) {
       const counts = {};
       for (const organ of ORGANS) {
         try {
-          const list = await api.getWaitingList(organ);
+          const hospitalId = hospital?.hospitalId
+          const list = await api.getWaitingList(organ,hospitalId);
           counts[organ] = Array.isArray(list) ? list.filter(p => p.available !== false).length : 0;
         } catch { counts[organ] = 0; }
       }

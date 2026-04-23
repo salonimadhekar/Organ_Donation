@@ -9,17 +9,23 @@ export default function WaitingList({ hospital }) {
   const [patients, setPatients] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const fetch = async (o) => {
+  const fetchPatients = async (o) => {
     if (!o) return;
-    setLoading(true); setPatients(null);
-    try {
-      const res = await api.getWaitingList(o);
+    console.log("hospital prop:", hospital);
+    console.log("hospitalId:", hospital?.hospitalId);
+    console.log("calling URL:", `/patient/waiting-list/${o}/hospital/${hospital?.hospitalId}`);
+    setLoading(true); setPatients(null); try {
+      const res = await api.getWaitingList(o, hospital?.hospitalId);
+      console.log("API response:", res);
       setPatients(Array.isArray(res) ? res : []);
-    } catch { setPatients([]); }
+    } catch(e) {
+      console.error("API error:", e);
+      setPatients([]);
+    }
     finally { setLoading(false); }
   };
 
-  const handleOrgan = (o) => { setOrgan(o); fetch(o); };
+  const handleOrgan = (o) => { setOrgan(o); fetchPatients(o); };
 
   const maxPriority = patients ? Math.max(...patients.map(p => p.dynamicPriority), 1) : 1;
 

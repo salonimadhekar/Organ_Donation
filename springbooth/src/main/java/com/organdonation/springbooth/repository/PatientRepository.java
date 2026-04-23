@@ -8,5 +8,6 @@ import java.util.List;
 public interface PatientRepository extends JpaRepository<Patient,String>{
 
 
-    List<Patient> findByOrgansNeededContainingIgnoreCase(String organ);
+    List<Patient> findByOrgansNeededContainingIgnoreCaseAndHospital_HospitalId(String organ, String hospitalId);
+    List<Patient>findByOrgansNeededContainingIgnoreCase(String organ);
 }

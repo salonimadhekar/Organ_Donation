@@ -64,40 +64,43 @@ public class PatientController {
     }
 
 
-    @GetMapping("/organ/{organ}")
-    public List<Patient> view(@PathVariable String organ) {
-        return patientRepo.findByOrgansNeededContainingIgnoreCase(organ);
+    @GetMapping("/organ/{organ}/{hospitalId}")
+    public List<Patient> view(@PathVariable String organ,
+                              @PathVariable String hospitalId) {
+        return  patientRepo.findByOrgansNeededContainingIgnoreCaseAndHospital_HospitalId(organ, hospitalId);
     }
     @PutMapping("/update-condition/{id}")
     public String updateCondition(@PathVariable String id,
-                                  @RequestParam int urgency) {
-
+                                  @RequestParam int urgency,
+                                  @RequestParam String hospitalId) {
 
         Patient p = patientRepo.findById(id).orElse(null);
         if (p == null) return "Not found";
 
+        // 🔥 restriction
+        if (!p.getHospital().getHospitalId().equals(hospitalId)) {
+            return "Unauthorized";
+        }
 
         p.setUrgency(urgency);
         p.updatePriority();
 
-
         patientRepo.save(p);
-
 
         return "Updated";
     }
-    @GetMapping("/waiting-list/{organ}")
-    public List<Patient> getWaitingList(@PathVariable String organ) {
-
+    @GetMapping("/waiting-list/{organ}/{hospitalId}")
+    public List<Patient> getWaitingList(@PathVariable String organ,
+                                        @PathVariable String hospitalId) {
 
         List<Patient> patients =
-                patientRepo.findByOrgansNeededContainingIgnoreCase(organ);
+                patientRepo.findByOrgansNeededContainingIgnoreCaseAndHospital_HospitalId(organ, hospitalId);
 
+        patients.removeIf(p -> !p.isAvailable()); // 🔥 important
 
         patients.sort((a, b) ->
                 Double.compare(b.getDynamicPriority(), a.getDynamicPriority())
         );
-
 
         return patients;
     }
