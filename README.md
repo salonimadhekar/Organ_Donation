@@ -38,6 +38,9 @@ A full-stack organ donation management system built with **Spring Boot**, **Reac
 - Allocate Patient
     <img src="./screenshots/allocatePatient.png" width="700"/>
 
+- Update Urgency
+    <img src="./screenshots/updateUrgency.png" width="700"/>
+
 
 
 
@@ -71,8 +74,6 @@ Organ_Donation_clone/
 - Activate donors and review allocation candidates
 - Update patient urgency as condition changes
 
-### ⚙️ Admin Panel
-- Register hospitals in the network
 
 ### DashBoard
 - Add donors and patients
@@ -141,15 +142,7 @@ npm run dev
 
 Opens at **`http://localhost:3000`**
 
-### Admin Panel
 
-```bash
-cd organ-donation-frontend
-npm install
-npm run dev
-```
-
-Opens at **`http://localhost:3000`** (run separately, stop the other first)
 
 ---
 
@@ -160,40 +153,11 @@ Opens at **`http://localhost:3000`** (run separately, stop the other first)
 | H001 | apollo123 | Apollo Mumbai | Mumbai |
 | H002 | aiims123 | AIIMS Delhi | Delhi |
 | H003 | ruby123 | Ruby Hall Pune | Pune |
-
-> These hospitals must first be registered via the Admin Panel or Postman before logging in.
-
----
-
-## 🧪 API Endpoints
-
-### Hospitals
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/hospital/register` | Register a new hospital |
-| GET | `/hospital/all` | Get all hospitals |
-
-### Patients
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/patient/add` | Add a single patient |
-| POST | `/patient/addAll` | Add multiple patients |
-| GET | `/patient/organ/{organ}` | Get patients by organ needed |
-| GET | `/patient/waiting-list/{organ}` | Get sorted waiting list |
-| PUT | `/patient/update-condition/{id}?urgency=8` | Update patient urgency |
-
-### Donors
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/donor/add` | Register a donor |
-| POST | `/donor/activate/{donorId}` | Activate donor & run algorithm |
-
-### Allocation
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/allocation/accept?patientId=P001&donorId=D001` | Confirm organ allocation |
+.
 
 ---
+
+
 
 ## 🔄 Complete Flow
 
