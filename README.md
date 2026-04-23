@@ -17,26 +17,26 @@ A full-stack organ donation management system built with **Spring Boot**, **Reac
 
 ## ScreenShots
 
-### Register/Login Hospital
-    <img src="screenshots/loginRegister.png" width="700"/>
+- Register/Login Hospital
+    <img src="./screenshots/loginRegister.png" width="700"/>
 
-### Dashboard
-    <img src="screenshots/dashboard.png" width="700"/>
+- Dashboard
+    <img src="./screenshots/dashboard.png" width="700"/>
 
-### Waiting List
-    <img src="screenshots/waitingList.png" width="700"/>
+- Waiting List
+    <img src="./screenshots/waitingList.png" width="700"/>
 
-### Patient Registration
-    <img src="screenshots/patientRegister.png" width="700"/>
+- Patient Registration
+    <img src="./screenshots/patientRegister.png" width="700"/>
 
-### Donor Registration
-    <img src="screenshots/donorRegister.png" width="700"/>
+- Donor Registration
+    <img src="./screenshots/donorRegister.png" width="700"/>
 
-### Activate Donor
-    <img src="screenshots/activateDonor.png" width="700"/>
+- Activate Donor
+    <img src="./screenshots/activateDonor.png" width="700"/>
 
-### Allocate Patient
-    <img src="screenshots/allocatePatient.png" width="700"/>
+- Allocate Patient
+    <img src="./screenshots/allocatePatient.png" width="700"/>
 
 
 
